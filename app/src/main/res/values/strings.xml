@@ -1,3 +1,7 @@
 <resources>
-    <string name="app_name">hex</string>
+    <string name="app_name">Hex 7×7</string>
+    <string name="title_hex">HEX</string>
+    <string name="red_goal">RED · TOP ↕ BOTTOM</string>
+    <string name="blue_goal">BLUE · LEFT ↔ RIGHT</string>
+    <string name="board_description">Seven by seven Hex board</string>
 </resources>
