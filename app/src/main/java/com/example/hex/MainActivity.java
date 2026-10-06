@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         game = new HexGame();
         binding.boardView.setGame(game);
         binding.boardView.setOnCellClickListener(this::onCellClicked);
+        binding.restartButton.setOnClickListener(view -> restartGame());
         render();
 
     }
@@ -53,10 +54,19 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
+    /** Resets the current game and refreshes the screen. */
+    private void restartGame() {
+        game = new HexGame();
+        render();
+    }
+
+
     /** Refreshes the visible screen from the current game state. */
     private void render() {
         binding.boardView.setGame(game);
         binding.boardView.setEnabled(!game.isOver());
+        binding.modelText.setText(R.string.model_local);
         if (game.getWinner() == HexGame.RED) {
             binding.statusText.setText(R.string.status_red_wins);
         } else if (game.getWinner() == HexGame.BLUE) {

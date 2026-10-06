@@ -1,10 +1,12 @@
 <resources>
     <string name="app_name">Hex 7×7</string>
     <string name="title_hex">HEX</string>
+    <string name="subtitle">Connect your two sides</string>
+    <string name="restart">Restart game</string>
     <string name="red_goal">RED · TOP ↕ BOTTOM</string>
     <string name="blue_goal">BLUE · LEFT ↔ RIGHT</string>
     <string name="board_description">Seven by seven Hex board</string>
-
+    <string name="model_local">Local two-player game</string>
     <string name="status_red_turn">Red to move</string>
        <string name="status_blue_turn">Blue to move</string>
 
