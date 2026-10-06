@@ -4,4 +4,7 @@
     <string name="red_goal">RED · TOP ↕ BOTTOM</string>
     <string name="blue_goal">BLUE · LEFT ↔ RIGHT</string>
     <string name="board_description">Seven by seven Hex board</string>
+
+    <string name="status_red_turn">Red to move</string>
+       <string name="status_blue_turn">Blue to move</string>
 </resources>

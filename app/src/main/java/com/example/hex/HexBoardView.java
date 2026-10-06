@@ -18,15 +18,30 @@ import androidx.core.content.ContextCompat;
  * <p>The view's intended role also includes cell input; game rules stay in a separate class.
  */
 public final class HexBoardView extends View {
+
+    /** Receives taps that land inside a board cell. */
+    public interface OnCellClickListener {
+        /**
+         * Called after the user taps a cell.
+         *
+         * @param row zero-based board row
+         * @param column zero-based board column
+         */
+        void onCellClick(int row, int column);
+    }
+
     private static final float SQRT_THREE = (float) Math.sqrt(3.0);
 
-    private final HexGame game = new HexGame();
+
 
     private final Paint fillPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private final Paint strokePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private final Paint sidePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private final Path hexPath = new Path();
 
+
+    private HexGame game = new HexGame();
+    private OnCellClickListener listener;
     private float radius;
     private float startX;
     private float startY;
@@ -52,6 +67,28 @@ public final class HexBoardView extends View {
         strokePaint.setStrokeJoin(Paint.Join.ROUND);
         sidePaint.setStyle(Paint.Style.STROKE);
         sidePaint.setStrokeCap(Paint.Cap.ROUND);
+        setClickable(true);
+        setFocusable(true);
+    }
+
+    /**
+     * Sets the game position to render and schedules a redraw.
+     *
+     * @param game game whose current board should be displayed
+     */
+    public void setGame(HexGame game) {
+        this.game = game;
+        invalidate();
+    }
+
+    /**
+     * Sets the listener notified when the user taps a board cell.
+     *
+     * @param listener listener that receives taps on the board
+     */
+    public void setOnCellClickListener(OnCellClickListener listener) {
+        this.listener = listener;
+
     }
 
     @Override
@@ -67,7 +104,29 @@ public final class HexBoardView extends View {
                 float centerX = centerX(row, column);
                 float centerY = centerY(row);
                 makeHexagon(centerX, centerY);
-                fillPaint.setColor(emptyColor);
+                int cell = game.getCell(row, column);
+                fillPaint.setColor(cell == HexGame.RED
+                        ? redColor : cell == HexGame.BLUE ? blueColor : emptyColor);        setClickable(true);
+                setFocusable(true);
+            }
+
+            /**
+             * Sets the game position to render and schedules a redraw.
+             *
+             * @param game game whose current board should be displayed
+             */
+            public void setGame(HexGame game) {
+                this.game = game;
+                invalidate();
+            }
+
+            /**
+             * Sets the listener notified when the user taps a board cell.
+             *
+             * @param listener listener that receives taps on the board
+             */
+            public void setOnCellClickListener(OnCellClickListener listener) {
+                this.listener = listener;
                 fillPaint.setStyle(Paint.Style.FILL);
                 canvas.drawPath(hexPath, fillPaint);
                 canvas.drawPath(hexPath, strokePaint);
