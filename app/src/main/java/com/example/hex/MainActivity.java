@@ -56,7 +56,14 @@ public class MainActivity extends AppCompatActivity {
     /** Refreshes the visible screen from the current game state. */
     private void render() {
         binding.boardView.setGame(game);
-        binding.statusText.setText(game.getCurrentPlayer() == HexGame.RED
-                ? R.string.status_red_turn : R.string.status_blue_turn);
+        binding.boardView.setEnabled(!game.isOver());
+        if (game.getWinner() == HexGame.RED) {
+            binding.statusText.setText(R.string.status_red_wins);
+        } else if (game.getWinner() == HexGame.BLUE) {
+            binding.statusText.setText(R.string.status_blue_wins);
+        } else {
+            binding.statusText.setText(game.getCurrentPlayer() == HexGame.RED
+                    ? R.string.status_red_turn : R.string.status_blue_turn);
+        }
     }
 }

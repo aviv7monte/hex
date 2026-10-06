@@ -7,4 +7,7 @@
 
     <string name="status_red_turn">Red to move</string>
        <string name="status_blue_turn">Blue to move</string>
+
+    <string name="status_red_wins">Red wins — top connected to bottom</string>
+    <string name="status_blue_wins">Blue wins — left connected to right</string>
 </resources>
