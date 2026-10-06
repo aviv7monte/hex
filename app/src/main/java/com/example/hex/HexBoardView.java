@@ -110,8 +110,11 @@ public final class HexBoardView extends View {
                 makeHexagon(centerX, centerY);
                 int cell = game.getCell(row, column);
                 fillPaint.setColor(cell == HexGame.RED
-                        ? redColor : cell == HexGame.BLUE ? blueColor : emptyColor);        setClickable(true);
-                setFocusable(true);
+                        ? redColor : cell == HexGame.BLUE ? blueColor : emptyColor);
+
+                fillPaint.setStyle(Paint.Style.FILL);
+                canvas.drawPath(hexPath, fillPaint);
+                canvas.drawPath(hexPath, strokePaint);
             }
 
 
