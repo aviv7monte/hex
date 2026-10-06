@@ -34,10 +34,10 @@ public final class HexGame {
     /** Creates a square board with the given number of rows and columns. */
     public HexGame(int size) {
 
-
         this.size = size;
         cells = new int[size * size];
-        currentPlayer = RED;}
+        currentPlayer = RED;
+    }
 
     /** @return the number of rows and columns on this board */
     public int getSize() {

@@ -10,9 +10,15 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.hex.databinding.ActivityMainBinding;
 
+/** Connects board taps to the independent game state. */
+
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
+
+    private HexGame game;
+
+    /** Creates the game screen and connects its controls to the current game. */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,5 +31,32 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(bars.left, bars.top, bars.right, bars.bottom);
             return insets;
         });
+
+
+        game = new HexGame();
+        binding.boardView.setGame(game);
+        binding.boardView.setOnCellClickListener(this::onCellClicked);
+        render();
+
+    }
+
+
+    /**
+     * Plays a legal move from a board tap and updates the screen.
+     *
+     * @param row zero-based row of the tapped cell
+     * @param column zero-based column of the tapped cell
+     */
+    private void onCellClicked(int row, int column) {
+        if (game.play(row, column)) {
+            render();
+        }
+    }
+
+    /** Refreshes the visible screen from the current game state. */
+    private void render() {
+        binding.boardView.setGame(game);
+        binding.statusText.setText(game.getCurrentPlayer() == HexGame.RED
+                ? R.string.status_red_turn : R.string.status_blue_turn);
     }
 }

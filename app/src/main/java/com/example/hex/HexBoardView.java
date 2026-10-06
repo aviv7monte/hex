@@ -6,6 +6,9 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.util.AttributeSet;
+
+import android.view.MotionEvent;
+
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -18,6 +21,8 @@ import androidx.core.content.ContextCompat;
  * <p>The view's intended role also includes cell input; game rules stay in a separate class.
  */
 public final class HexBoardView extends View {
+
+
 
     /** Receives taps that land inside a board cell. */
     public interface OnCellClickListener {
@@ -88,7 +93,6 @@ public final class HexBoardView extends View {
      */
     public void setOnCellClickListener(OnCellClickListener listener) {
         this.listener = listener;
-
     }
 
     @Override
@@ -110,27 +114,7 @@ public final class HexBoardView extends View {
                 setFocusable(true);
             }
 
-            /**
-             * Sets the game position to render and schedules a redraw.
-             *
-             * @param game game whose current board should be displayed
-             */
-            public void setGame(HexGame game) {
-                this.game = game;
-                invalidate();
-            }
 
-            /**
-             * Sets the listener notified when the user taps a board cell.
-             *
-             * @param listener listener that receives taps on the board
-             */
-            public void setOnCellClickListener(OnCellClickListener listener) {
-                this.listener = listener;
-                fillPaint.setStyle(Paint.Style.FILL);
-                canvas.drawPath(hexPath, fillPaint);
-                canvas.drawPath(hexPath, strokePaint);
-            }
         }
     }
 
@@ -185,6 +169,46 @@ public final class HexBoardView extends View {
         }
         hexPath.close();
     }
+
+
+    @Override
+    public boolean onTouchEvent(@NonNull MotionEvent event) {
+        if (!isEnabled()) {
+            return false;
+        }
+        if (event.getAction() == MotionEvent.ACTION_UP) {
+            calculateGeometry();
+            // Hexagon interiors do not overlap, so the first containing cell is the tap.
+            for (int row = 0; row < game.getSize(); row++) {
+                for (int column = 0; column < game.getSize(); column++) {
+                    float dx = event.getX() - centerX(row, column);
+                    float dy = event.getY() - centerY(row);
+                    if (containsPoint(dx, dy)) {
+                        listener.onCellClick(row, column);
+                        performClick();
+                        return true;
+                    }
+                }
+            }
+            return true;
+        }
+        return event.getAction() == MotionEvent.ACTION_DOWN || super.onTouchEvent(event);
+    }
+
+    private boolean containsPoint(float dx, float dy) {
+        float absX = Math.abs(dx);
+        float absY = Math.abs(dy);
+        return absX <= SQRT_THREE * radius / 2.0f
+                && absY <= radius
+                && SQRT_THREE * absY + absX <= SQRT_THREE * radius;
+    }
+
+    @Override
+    public boolean performClick() {
+        super.performClick();
+        return true;
+    }
+
 
     private float centerX(int row, int column) {
         return startX + SQRT_THREE * radius * (column + row * 0.5f);
