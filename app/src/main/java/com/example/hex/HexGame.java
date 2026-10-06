@@ -1,9 +1,10 @@
 package com.example.hex;
 
 import java.util.ArrayDeque;
-
+import java.util.ArrayList;
 import java.util.Arrays;
-
+import java.util.Collections;
+import java.util.List;
 /**
  * Holds the board dimensions, position, and rules for a Hex game.
  *
@@ -32,6 +33,9 @@ public final class HexGame {
 
     private int winner = EMPTY;
 
+    /** Keeps the legal-move list sized to the number of empty cells. */
+    private int moveCount;
+
     /** Creates the default 7×7 board. */
     public HexGame() {
         this(DEFAULT_SIZE);
@@ -43,6 +47,16 @@ public final class HexGame {
         this.size = size;
         cells = new int[size * size];
         currentPlayer = RED;
+    }
+
+    /** Copies the board and turn for a candidate move. */
+    public HexGame copy() {
+        HexGame copy = new HexGame(size);
+        System.arraycopy(cells, 0, copy.cells, 0, cells.length);
+        copy.currentPlayer = currentPlayer;
+        copy.winner = winner;
+        copy.moveCount = moveCount;
+        return copy;
     }
 
     /** @return the number of rows and columns on this board */
@@ -71,14 +85,23 @@ public boolean play(int row, int column) {
     }
 
     cells[index] = currentPlayer;
-
+    moveCount++;
     if (hasConnection(currentPlayer)) {
                     winner = currentPlayer;
                }
             // Advance the turn even after the winning move.
     currentPlayer = otherPlayer(currentPlayer);
     return true;
-}
+}/** Lists every empty cell while the game is active. */
+    public List<Move> legalMoves() {
+        if (isOver()) return Collections.emptyList();
+
+        List<Move> moves = new ArrayList<>(cells.length - moveCount);
+        for (int i = 0; i < cells.length; i++) {
+            if (cells[i] == EMPTY) moves.add(new Move(i / size, i % size));
+        }
+        return moves;
+    }
 
     /**
      * Detects a win by searching the player's connected stones between both goal edges.
@@ -179,6 +202,21 @@ public int getCurrentPlayer() {
     return currentPlayer;
 }
 
+    /** Encodes each cell as [own stone, opponent stone, direction]. */
+    public float[] encodeForCurrentPlayer() {
+        float[] encoded = new float[cells.length * 3];
+        int opponent = otherPlayer(currentPlayer);
+        float direction = currentPlayer == RED ? 1.0f : 0.0f;
+
+        for (int i = 0; i < cells.length; i++) {
+            int base = i * 3;
+            encoded[base] = cells[i] == currentPlayer ? 1.0f : 0.0f;
+            encoded[base + 1] = cells[i] == opponent ? 1.0f : 0.0f;
+            encoded[base + 2] = direction;
+        }
+        return encoded;
+    }
+
 /** RED is 1 and BLUE is 2, so subtracting either from 3 gives the opponent. */
 public static int otherPlayer(int player) {
     return 3 - player;
@@ -191,4 +229,15 @@ private int index(int row, int column) {
 private boolean isOutside(int row, int column) {
     return row < 0 || row >= size || column < 0 || column >= size;
 }
+
+    /** A move stores only its board row and column. */
+    public static final class Move {
+        public final int row;
+        public final int column;
+
+        public Move(int row, int column) {
+            this.row = row;
+            this.column = column;
+        }
+    }
 }
