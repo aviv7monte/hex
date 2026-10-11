@@ -5,17 +5,23 @@
     <string name="restart">Restart game</string>
     <string name="red_goal">RED · TOP ↕ BOTTOM</string>
     <string name="blue_goal">BLUE · LEFT ↔ RIGHT</string>
-    <string name="board_description">Seven by seven Hex board</string>
+    <string name="board_description">%1$d by %2$d Hex board</string>
     <string name="model_local">Local two-player game</string>
     <string name="mode_label">GAME MODE</string>
     <string name="human_vs_ai">Human vs Computer</string>
     <string name="human_vs_human">Two players</string>
+    <string name="board_size_label">BOARD SIZE</string>
+    <string-array name="board_sizes">
+        <item>7×7</item>
+        <item>11×11</item>
+    </string-array>
+    <string name="computer_level_label">COMPUTER LEVEL</string>
     <string name="ai_unavailable">Computer model unavailable</string>
     <string name="status_model_loading">Loading computer player…</string>
     <string name="status_ai_thinking">Blue computer is thinking…</string>
     <string name="status_your_turn">Your turn — Red</string>
     <string name="model_unavailable_help">Choose Two players to keep playing</string>
-    <string name="model_loading">Loading model…</string>
+    <string name="model_loading">Loading %1$s…</string>
     <string name="model_ready">Value model v1 · fully offline</string>
     <string name="status_red_turn">Red to move</string>
        <string name="status_blue_turn">Blue to move</string>

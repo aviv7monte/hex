@@ -18,9 +18,9 @@ public final class TfliteValueModel implements ValueModel, AutoCloseable {
     private final List<TensorBuffer> outputBuffers;
 
     /** Load the model and create buffers for its first signature. */
-    public TfliteValueModel(Context context) throws LiteRtException {
+    public TfliteValueModel(Context context , String modelAsset) throws LiteRtException {
         compiledModel = CompiledModel.create(context.getAssets(),
-                "hex_value_v1.tflite", CompiledModel.Options.getCPU());
+                modelAsset  , CompiledModel.Options.getCPU());
         inputBuffers = compiledModel.createInputBuffers(0);
         outputBuffers = compiledModel.createOutputBuffers(0);
     }

@@ -1,0 +1,37 @@
+[
+  {
+    "id": "trained-000100",
+    "label": "Trained — iteration 100",
+    "description": "A100 self-play training · 100 iterations · 7×7",
+    "modelAsset": "players/trained-000100/hex_value_v1.tflite",
+    "boardSize": 7
+  },
+  {
+    "id": "trained-002620",
+    "label": "Trained — iteration 2,620",
+    "description": "A100 self-play training · 2,620 iterations · 7×7",
+    "modelAsset": "players/trained-002620/hex_value_v1.tflite",
+    "boardSize": 7
+  },
+  {
+    "id": "trained-005000",
+    "label": "Trained — iteration 5,000",
+    "description": "A100 self-play training · 5,000 iterations · 7×7",
+    "modelAsset": "players/trained-005000/hex_value_v1.tflite",
+    "boardSize": 7
+  },
+  {
+    "id": "trained-007350",
+    "label": "Latest training — iteration 7,350 (11×11)",
+    "description": "A100 self-play training · 7,350 iterations · 11×11",
+    "modelAsset": "players/trained-007350/hex_value_v1.tflite",
+    "boardSize": 11
+  },
+  {
+    "id": "trained-11x11-000100",
+    "label": "Early training — iteration 100 (11×11)",
+    "description": "A100 self-play training · 100 iterations · 11×11",
+    "modelAsset": "players/trained-11x11-000100/hex_value_v1.tflite",
+    "boardSize": 11
+  }
+]
